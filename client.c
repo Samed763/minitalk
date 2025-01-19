@@ -1,14 +1,11 @@
-#include <unistd.h>
-#include <signal.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "minitalk.h"
 
+//çalışıyor
 int is_writed = 0;
 
 void to_byte(int pid, char *str)
 {
-    for (int i = 0; i <= strlen(str); i++)
+    for (size_t i = 0; i <= strlen(str); i++)
     {
         for (int j = 0; j < 8; j++)
         {
@@ -21,6 +18,7 @@ void to_byte(int pid, char *str)
             is_writed = 0;
         }
     }
+    ft_putstr("yes it writed\n");
 }
 
 void yes_it_wirted(int sig)
