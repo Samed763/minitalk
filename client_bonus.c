@@ -46,8 +46,11 @@ void	to_byte(int pid, char *str)
 
 void	yes_it_wirted(int sig)
 {
-	(void)sig;
 	g_is_writed = 1;
+	if (sig == SIGUSR2)
+		ft_putstr("Char Writed Successfully\n");
+	else if (sig == SIGUSR1)
+		ft_putstr("Byte Received\n");
 }
 
 int	main(int argc, char *argv[])
@@ -67,6 +70,7 @@ int	main(int argc, char *argv[])
 	sa.sa_handler = yes_it_wirted;
 	sa.sa_flags = 0;
 	sigaction(SIGUSR1, &sa, NULL);
+	sigaction(SIGUSR2, &sa, NULL);
 	while (str[i])
 		to_byte(pid, str);
 	return (0);

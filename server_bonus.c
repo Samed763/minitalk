@@ -20,6 +20,8 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 		}
 		bit = 0;
 		swift = 0;
+		if (kill(info->si_pid, SIGUSR2) == -1)
+			exit(EXIT_FAILURE);
 	}
 	if (kill(info->si_pid, SIGUSR1) == -1)
 		exit(EXIT_FAILURE);

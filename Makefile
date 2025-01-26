@@ -1,6 +1,25 @@
+CC = cc
+CFLAGS = -Wall -Werror -Wextra
+SRC_CLIENT = client.c utils.c
+SRC_SERVER = server.c utils.c
+OBJ_CLIENT = $(SRC_CLIENT:.c=.o)
+OBJ_SERVER = $(SRC_SERVER:.c=.o)
 
-client: client.c utils.c
-	cc -Wall -Werror -Wextra client.c utils.c -o client
+all: client server clean_objs
 
-server: server.c utils.c
-	cc -Wall -Werror -Wextra server.c utils.c -o server
+client: $(OBJ_CLIENT)
+	$(CC) $(CFLAGS) $(OBJ_CLIENT) -o client
+
+server: $(OBJ_SERVER)
+	$(CC) $(CFLAGS) $(OBJ_SERVER) -o server
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+clean_objs:
+	rm -f *.o
+
+clean:
+	rm -f *.o client server
+
+.PHONY: all clean clean_objs
