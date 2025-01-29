@@ -1,8 +1,8 @@
 #include "minitalk.h"
 
-int		g_is_writed = 0;
+int			g_is_writed = 0;
 
-int	ft_atoi(char *str)
+static int	ft_atoi(char *str)
 {
 	int	i;
 	int	res;
@@ -18,16 +18,14 @@ int	ft_atoi(char *str)
 	return (res);
 }
 
-void	to_byte(int pid, char *str)
+void	to_byte(int pid, char c)
 {
 	int	i;
-	int	arglen;
 
-	arglen = ft_strlen(str);
 	i = 0;
 	while (i < 8)
 	{
-		if ((str[i] >> i) & 1)
+		if ((c >> i) & 1)
 		{
 			if (kill(pid, SIGUSR1) == -1)
 				exit(EXIT_FAILURE);
@@ -44,7 +42,7 @@ void	to_byte(int pid, char *str)
 	}
 }
 
-void	yes_it_wirted(int sig)
+void	yes_it_wrote(int sig)
 {
 	(void)sig;
 	g_is_writed = 1;
@@ -54,20 +52,20 @@ int	main(int argc, char *argv[])
 {
 	int					pid;
 	int					i;
-	char				*str;
 	struct sigaction	sa;
 
 	i = 0;
 	if (argc != 3)
 		return (1);
 	pid = ft_atoi(argv[1]);
-	if (pid <= 1)
+	if (pid == 0)
+	{
 		ft_putstr("Invalid PID\n");
-	*str = argv[2];
-	sa.sa_handler = yes_it_wirted;
-	sa.sa_flags = 0;
+		exit(EXIT_FAILURE);
+	}
+	sa.sa_handler = yes_it_wrote;
 	sigaction(SIGUSR1, &sa, NULL);
-	while (str[i])
-		to_byte(pid, str);
+	while (argv[2][i])
+		to_byte(pid, argv[2][i++]);
 	return (0);
 }
