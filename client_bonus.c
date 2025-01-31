@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client_bonus.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sadinc <sadinc@student.42kocaeli.com.tr    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/31 14:33:37 by sadinc            #+#    #+#             */
+/*   Updated: 2025/01/31 14:34:42 by sadinc           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minitalk.h"
 
 int		g_is_writed = 0;
@@ -72,6 +84,6 @@ int	main(int argc, char *argv[])
 	sigaction(SIGUSR2, &sa, NULL);
 	while (argv[2][i])
 		to_byte(pid, argv[2][i++]);
-	to_byte(pid,'\0');
+	to_byte(pid, '\0');
 	return (0);
 }
