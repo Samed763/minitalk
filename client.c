@@ -6,7 +6,7 @@
 /*   By: sadinc <sadinc@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 14:33:53 by sadinc            #+#    #+#             */
-/*   Updated: 2025/01/31 14:33:54 by sadinc           ###   ########.fr       */
+/*   Updated: 2025/02/03 22:51:21 by sadinc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,8 @@ void	yes_it_wrote(int sig)
 
 int	main(int argc, char *argv[])
 {
-	int					pid;
-	int					i;
-	struct sigaction	sa;
+	int	pid;
+	int	i;
 
 	i = 0;
 	if (argc != 3)
@@ -75,9 +74,9 @@ int	main(int argc, char *argv[])
 		ft_putstr("Invalid PID\n");
 		exit(EXIT_FAILURE);
 	}
-	sa.sa_handler = yes_it_wrote;
-	sigaction(SIGUSR1, &sa, NULL);
+	signal(SIGUSR1, yes_it_wrote);
 	while (argv[2][i])
 		to_byte(pid, argv[2][i++]);
+	to_byte(pid, '\0');
 	return (0);
 }

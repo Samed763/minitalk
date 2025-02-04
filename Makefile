@@ -1,25 +1,36 @@
 CC = cc
-CFLAGS = -Wall -Werror -Wextra
-SRC_CLIENT = client.c utils.c
-SRC_SERVER = server.c utils.c
-OBJ_CLIENT = $(SRC_CLIENT:.c=.o)
-OBJ_SERVER = $(SRC_SERVER:.c=.o)
+FLAGS = -Wall -Wextra -Werror
+RM = rm -f
+SERVER = server.c
+CLIENT = client.c
+NAME = minitalk
 
-all: client server clean_objs
+SERVER_BONUS = server_bonus.c
+CLIENT_BONUS = client_bonus.c
+UTILS = utils.c
 
-client: $(OBJ_CLIENT)
-	$(CC) $(CFLAGS) $(OBJ_CLIENT) -o client
 
-server: $(OBJ_SERVER)
-	$(CC) $(CFLAGS) $(OBJ_SERVER) -o server
+all: $(NAME)
 
-%.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@
+$(NAME): server client
 
-clean_objs:
-	rm -f *.o
+server: $(SERVER)
+	$(CC) $(FLAGS) $(UTILS) $(SERVER) -o server
+
+client: $(CLIENT)
+	$(CC) $(FLAGS) $(UTILS) $(CLIENT) -o client
+
+bonus: server_bonus client_bonus
+
+server_bonus:$(SERVER_BONUS)
+	$(CC) $(FLAGS) $(UTILS) $(SERVER_BONUS) -o server_bonus
+
+client_bonus:$(CLIENT_BONUS)
+	$(CC) $(FLAGS) $(UTILS) $(CLIENT_BONUS) -o client_bonus
 
 clean:
-	rm -f *.o client server
+	$(RM) client server server_bonus client_bonus
 
-.PHONY: all clean clean_objs
+re: fclean all
+
+.PHONY: all clean fclean re bonus

@@ -6,11 +6,11 @@
 /*   By: sadinc <sadinc@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 14:33:39 by sadinc            #+#    #+#             */
-/*   Updated: 2025/01/31 14:33:40 by sadinc           ###   ########.fr       */
+/*   Updated: 2025/02/04 00:50:23 by sadinc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include "minitalk_bonus.h"
 
 void	handler(int sig, siginfo_t *info, void *ucontext)
 {
@@ -32,8 +32,6 @@ void	handler(int sig, siginfo_t *info, void *ucontext)
 		}
 		bit = 0;
 		swift = 0;
-		if (kill(info->si_pid, SIGUSR2) == -1)
-			exit(EXIT_FAILURE);
 	}
 	if (kill(info->si_pid, SIGUSR1) == -1)
 		exit(EXIT_FAILURE);

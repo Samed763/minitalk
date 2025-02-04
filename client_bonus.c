@@ -6,15 +6,15 @@
 /*   By: sadinc <sadinc@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 14:33:37 by sadinc            #+#    #+#             */
-/*   Updated: 2025/01/31 14:34:42 by sadinc           ###   ########.fr       */
+/*   Updated: 2025/02/04 03:18:30 by sadinc           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include "minitalk_bonus.h"
 
-int		g_is_writed = 0;
+int			g_is_writed = 0;
 
-int	ft_atoi(char *str)
+static int	ft_atoi(char *str)
 {
 	int	i;
 	int	res;
@@ -56,18 +56,15 @@ void	to_byte(int pid, char c)
 
 void	yes_it_wrote(int sig)
 {
+	if (sig == SIGUSR1)
+		ft_putstr("B\n");
 	g_is_writed = 1;
-	if (sig == SIGUSR2)
-		ft_putstr("Char Wrote Successfully\n");
-	else if (sig == SIGUSR1)
-		ft_putstr("Byte Received\n");
 }
 
 int	main(int argc, char *argv[])
 {
-	int					pid;
-	int					i;
-	struct sigaction	sa;
+	int	pid;
+	int	i;
 
 	i = 0;
 	if (argc != 3)
@@ -78,10 +75,7 @@ int	main(int argc, char *argv[])
 		ft_putstr("Invalid PID\n");
 		exit(EXIT_FAILURE);
 	}
-	sa.sa_handler = yes_it_wrote;
-	sa.sa_flags = 0;
-	sigaction(SIGUSR1, &sa, NULL);
-	sigaction(SIGUSR2, &sa, NULL);
+	signal(SIGUSR1, yes_it_wrote);
 	while (argv[2][i])
 		to_byte(pid, argv[2][i++]);
 	to_byte(pid, '\0');
